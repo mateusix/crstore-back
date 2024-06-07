@@ -1,12 +1,11 @@
-import institutionModel from '../models/InstitutionModel';
+import paymentsModels from '../models/paymentsModels';
 
 const get = async (req, res) => {
-    
   try {
     const id = req.params.id ? req.params.id.toString().replace(/\D/g, '') : null;
 
     if (!id) {
-      const response = await institutionModel.findAll({
+      const response = await paymentsModels.findAll({
         order: [['id', 'asc']],
       });
       return res.status(200).send({
@@ -16,7 +15,7 @@ const get = async (req, res) => {
       });
     }
 
-    const response = await institutionModel.findOne({ where: { id } });
+    const response = await paymentsModels.findOne({ where: { id } });
 
     if (!response) {
       return res.status(200).send({
@@ -41,9 +40,13 @@ const get = async (req, res) => {
 };
 
 const create = async (dados, res) => {
-  const { name,document_number, address_id } = dados;
+  const {
+    name,
+  } = dados;
 
-  const response = await institutionModel.create({name,document_number, address_id});
+  const response = await paymentsModels.create({
+    name,
+  });
 
   return res.status(200).send({
     type: 'success',
@@ -53,7 +56,7 @@ const create = async (dados, res) => {
 };
 
 const update = async (id, dados, res) => {
-  const response = await institutionModel.findOne({ where: { id } });
+  const response = await paymentsModels.findOne({ where: { id } });
 
   if (!response) {
     return res.status(200).send({
@@ -102,7 +105,7 @@ const destroy = async (req, res) => {
       });
     }
 
-    const response = await institutionModel.findOne({ where: { id } });
+    const response = await paymentsModels.findOne({ where: { id } });
 
     if (!response) {
       return res.status(200).send({

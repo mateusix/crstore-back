@@ -1,11 +1,11 @@
-import AdressModel from '../models/adressesModels';
+import categoriesModel from '../models/categoriesModels';
 
 const get = async (req, res) => {
   try {
     const id = req.params.id ? req.params.id.toString().replace(/\D/g, '') : null;
 
     if (!id) {
-      const response = await AdressModel.findAll({
+      const response = await categoriesModel.findAll({
         order: [['id', 'asc']],
       });
       return res.status(200).send({
@@ -15,7 +15,7 @@ const get = async (req, res) => {
       });
     }
 
-    const response = await AdressModel.findOne({ where: { id } });
+    const response = await categoriesModel.findOne({ where: { id } });
 
     if (!response) {
       return res.status(200).send({
@@ -41,17 +41,11 @@ const get = async (req, res) => {
 
 const create = async (dados, res) => {
   const {
-    zipCode, state, city, street, district, numberForget, idUsers,
+    name,
   } = dados;
 
-  const response = await AdressModel.create({
-    zipCode,
-    state,
-    city,
-    street,
-    district,
-    numberForget,
-    idUsers,
+  const response = await categoriesModel.create({
+    name,
   });
 
   return res.status(200).send({
@@ -62,7 +56,7 @@ const create = async (dados, res) => {
 };
 
 const update = async (id, dados, res) => {
-  const response = await AdressModel.findOne({ where: { id } });
+  const response = await categoriesModel.findOne({ where: { id } });
 
   if (!response) {
     return res.status(200).send({
@@ -111,7 +105,7 @@ const destroy = async (req, res) => {
       });
     }
 
-    const response = await AdressModel.findOne({ where: { id } });
+    const response = await categoriesModel.findOne({ where: { id } });
 
     if (!response) {
       return res.status(200).send({
